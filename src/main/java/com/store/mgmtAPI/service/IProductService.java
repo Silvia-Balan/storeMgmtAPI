@@ -1,2 +1,4 @@
-package com.store.mgmtAPI.service;public class IProductService {
+package com.store.mgmtAPI.service;
+
+public interface IProductService {
 }

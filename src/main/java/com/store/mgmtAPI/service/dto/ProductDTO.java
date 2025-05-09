@@ -1,2 +1,4 @@
-package com.store.mgmtAPI.service.dto;public class ProductDTO {
+package com.store.mgmtAPI.service.dto;
+
+public class ProductDTO {
 }

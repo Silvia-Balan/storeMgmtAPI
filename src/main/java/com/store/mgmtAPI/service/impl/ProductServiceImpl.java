@@ -1,2 +1,4 @@
-package com.store.mgmtAPI.service.impl;public class ProductServiceUImpl {
+package com.store.mgmtAPI.service.impl;
+
+public class ProductServiceImpl {
 }

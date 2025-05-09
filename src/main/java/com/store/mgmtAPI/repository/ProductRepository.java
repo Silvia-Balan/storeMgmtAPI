@@ -1,2 +1,4 @@
-package com.store.mgmtAPI.repository.model;public interface ProductRepository {
+package com.store.mgmtAPI.repository;
+
+public interface ProductRepository {
 }
