@@ -3,6 +3,7 @@ package com.store.mgmtAPI.repository.model;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -24,8 +25,8 @@ public class Product {
     @Column(name = "quantity")
     private int quantity;
 
-    @Column(name = "created_at")
-    private String createdAt;
+    @Column(name = "created_at", updatable = false, insertable = false)
+    private LocalDateTime createdAt;
 
     public Product() {
     }
@@ -73,7 +74,7 @@ public class Product {
         this.quantity = quantity;
     }
 
-    public String getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
