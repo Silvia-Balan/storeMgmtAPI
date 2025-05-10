@@ -19,4 +19,26 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(detailedErrorResponse, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(ProductNameNotFoundException.class)
+    public ResponseEntity<DetailedErrorResponse> handleNameNotFound(ProductNameNotFoundException exception, WebRequest webRequest){
+        DetailedErrorResponse detailedErrorResponse = new DetailedErrorResponse(
+                webRequest.getDescription(false),
+                HttpStatus.NOT_FOUND,
+                exception.getMessage()
+        );
+
+        return new ResponseEntity<>(detailedErrorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ProductNameMismatchException.class)
+    public ResponseEntity<DetailedErrorResponse> handleNameMismatchExists(ProductNameMismatchException exception, WebRequest webRequest){
+        DetailedErrorResponse detailedErrorResponse = new DetailedErrorResponse(
+                webRequest.getDescription(false),
+                HttpStatus.BAD_REQUEST,
+                exception.getMessage()
+        );
+
+        return new ResponseEntity<>(detailedErrorResponse, HttpStatus.BAD_REQUEST);
+    }
 }
