@@ -1,6 +1,8 @@
 package com.store.mgmtAPI.service.impl;
 
 import com.store.mgmtAPI.controller.exception.ProductNameAlreadyExistsException;
+import com.store.mgmtAPI.controller.exception.ProductNameMismatchException;
+import com.store.mgmtAPI.controller.exception.ProductNameNotFoundException;
 import com.store.mgmtAPI.repository.ProductRepository;
 import com.store.mgmtAPI.repository.model.Product;
 import com.store.mgmtAPI.service.IProductService;
@@ -25,16 +27,16 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public ProductDTO addProduct(Product product) {
-        log.info("Attempting to add new product: {}", product.getName());
+        log.info("Attempting to add new product: '{}'", product.getName());
 
         if(productRepository.findByName(product.getName()).isPresent()){
             // product name already exists in DB, not adding it again
-            log.error("Failed to add product: {}", product.getName());
+            log.error("Failed to add product: '{}'", product.getName());
             throw  new ProductNameAlreadyExistsException("The product " + product.getName() + " already exists in DB, choose another name and try again ");
         }
 
         Product savedProd = productRepository.save(product);
-        log.info("Successfully added product with ID: {}", savedProd.getId());
+        log.info("Successfully added product with ID: '{}'", savedProd.getId());
         ProductDTO productDTO = ProductMapper.mapToProductDTO(savedProd, new ProductDTO());
 
         return productDTO;
@@ -58,31 +60,101 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public ProductDTO getProduct(String name) {
-        return null;
+        log.info("Attempting to retrieve product '{}'",name);
+
+        Product product = productRepository
+                .findByName(name)
+                .orElseThrow(() -> {
+                    log.error("Product name '{}' not found in DB", name);
+                    return new ProductNameNotFoundException("Product name: " + name + " not found in DB");
+                });
+
+        log.info("Product '{}' retrieved successfully", name);
+
+        ProductDTO productDTO = ProductMapper.mapToProductDTO(product, new ProductDTO());
+        return productDTO;
     }
 
     @Override
     public List<ProductDTO> getAllProductsByName(String name) {
-        return null;
+        log.info("Attempting to retrieve a list of all products containing '{}' in the name", name);
+
+        List<ProductDTO> listOfProductsDTO = new ArrayList<>();
+
+        for(Product product : productRepository.findProductByName(name)){
+            ProductDTO productDTO = ProductMapper.mapToProductDTO(product, new ProductDTO());
+            listOfProductsDTO.add(productDTO);
+        }
+
+        if(listOfProductsDTO.isEmpty()){
+            log.error("Product containing '{}' in the name not found", name);
+            throw new ProductNameNotFoundException("Product name: " + name + " not found in DB");
+        }
+
+        log.info("Product list '{}' retrieved successfully", listOfProductsDTO);
+
+        return listOfProductsDTO;
     }
 
     @Override
     public List<ProductDTO> getAllProductsByDescription(String description) {
-        return null;
+        log.info("Attempting to retrieve a list of all products containing '{}' in the description", description);
+
+        List<ProductDTO> listOfProductsDTO = new ArrayList<>();
+
+        for(Product product : productRepository.findProductByName(description)){
+            ProductDTO productDTO = ProductMapper.mapToProductDTO(product, new ProductDTO());
+            listOfProductsDTO.add(productDTO);
+        }
+
+        if(listOfProductsDTO.isEmpty()){
+            log.error("Product containing '{}' in the description not found", description);
+            throw new ProductNameNotFoundException("Product name: " + description + " not found in DB");
+        }
+
+        log.info("Product list '{}' retrieved successfully", listOfProductsDTO);
+
+        return listOfProductsDTO;
     }
 
     @Override
-    public boolean deleteProduct(int id) {
-        return false;
+    public boolean deleteProduct(String name) {
+
+        log.info("Attempting to delete product '{}'", name);
+
+        Product product = productRepository.findByName(name)
+                .orElseThrow(() -> {
+                    log.error("Product name '{}' not found in DB", name);
+                    return new ProductNameNotFoundException("Product name: " + name + " not found in DB");
+                });
+
+        productRepository.deleteByName(name);
+        log.info("Product '{}' deleted successfully.", name);
+        return true;
     }
 
     @Override
     public boolean deleteAllProducts() {
-        return false;
+
+        log.info("Attempting to delete all products.");
+        productRepository.deleteAll();
+        log.info("All products have been deleted.");
+        return true;
     }
 
     @Override
-    public boolean updateProduct(int id, Product product) {
-        return false;
+    public boolean updateProduct(String nameFromUri, Product product) {
+        String productName = product.getName();
+        log.info("Attempting to update product '{}'", product);
+
+        if(!nameFromUri.equals(productName)){
+            log.error("Product name '{}' not found in DB", productName);
+            throw new ProductNameMismatchException("Product name mismatch: URI = " + nameFromUri + "Entity name = " + productName );
+        }
+
+        productRepository.updateProduct(productName, product.getDescription(), product.getPrice(), product.getQuantity());
+        log.info("Product updated successfully '{}'", product);
+
+        return true;
     }
 }
