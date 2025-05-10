@@ -102,7 +102,7 @@ public class ProductServiceImpl implements IProductService {
 
         List<ProductDTO> listOfProductsDTO = new ArrayList<>();
 
-        for(Product product : productRepository.findProductByName(description)){
+        for(Product product : productRepository.findProductByDescription(description)){
             ProductDTO productDTO = ProductMapper.mapToProductDTO(product, new ProductDTO());
             listOfProductsDTO.add(productDTO);
         }
