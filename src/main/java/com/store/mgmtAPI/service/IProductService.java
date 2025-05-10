@@ -14,8 +14,8 @@ public interface IProductService {
     public List<ProductDTO> getAllProductsByName(String name);
     public List<ProductDTO> getAllProductsByDescription(String description);
 
-    boolean deleteProduct(int id);
+    boolean deleteProduct(String name);
     boolean deleteAllProducts();
 
-    public boolean updateProduct(int id, Product product);
+    public boolean updateProduct(String name, Product product);
 }
