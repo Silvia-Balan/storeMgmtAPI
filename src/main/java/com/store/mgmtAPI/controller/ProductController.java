@@ -7,6 +7,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -22,10 +23,12 @@ public class ProductController {
         this.iProductService = iProductService;
     }
 
+    @Secured("ROLE_CLIENT")
     @GetMapping
     public List<ProductDTO> getAllProducts(){
         return iProductService.getAllProducts();
     }
+    @Secured("ROLE_VENDOR")
     @PostMapping
     public ResponseEntity<ProductDTO> addProduct(@RequestBody Product product, UriComponentsBuilder uriComponentsBuilder){
         System.out.println("Product is: " + product);
@@ -39,7 +42,7 @@ public class ProductController {
                 .location(locationURI)
                 .body(productDTO);
     }
-
+    @Secured("ROLE_CLIENT")
     @GetMapping(path = "/product", params = "name")
     public ResponseEntity<List<ProductDTO>> getAllProductsByName(@RequestParam String name){
         List<ProductDTO> nameProducts = iProductService.getAllProductsByName(name);
@@ -54,7 +57,7 @@ public class ProductController {
                     .body(nameProducts);
         }
     }
-
+    @Secured("ROLE_CLIENT")
     @GetMapping(path = "/product", params = "description")
     public ResponseEntity<List<ProductDTO>> getAllProductsByDescription(@RequestParam String description){
         List<ProductDTO> descProducts = iProductService.getAllProductsByDescription(description);
@@ -69,7 +72,7 @@ public class ProductController {
                     .body(descProducts);
         }
     }
-
+    @Secured("ROLE_ADMIN")
     @DeleteMapping
     public ResponseEntity<String> deleteAllProducts(){
         iProductService.deleteAllProducts();
@@ -84,7 +87,7 @@ public class ProductController {
                 .status(HttpStatus.METHOD_NOT_ALLOWED)
                 .build();
     }
-
+    @Secured("ROLE_CLIENT")
     @GetMapping(path = "/product/{name}")
     public ResponseEntity<ProductDTO> getProductByName(@PathVariable String name){
         ProductDTO productDTO = iProductService.getProduct(name);
@@ -92,7 +95,7 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(productDTO);
     }
-
+    @Secured("ROLE_ADMIN")
     @DeleteMapping(path = "/product/{name}")
     public ResponseEntity<String> deleteProduct(@PathVariable String name){
         iProductService.deleteProduct(name);
@@ -108,7 +111,7 @@ public class ProductController {
                 .status(HttpStatus.METHOD_NOT_ALLOWED)
                 .build();
     }
-
+    @Secured("ROLE_VENDOR")
     @PutMapping(path = "/product/{name}")
     public ResponseEntity<String> updateProduct(@PathVariable String name, @RequestBody Product product){
         iProductService.updateProduct(name, product);
