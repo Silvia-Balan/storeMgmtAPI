@@ -7,6 +7,14 @@ CREATE TABLE IF NOT EXISTS `products` (
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
+INSERT INTO `products` (name, description, price, quantity)
+    VALUES
+    ('Wireless Mouse', 'Ergonomic wireless mouse with USB receiver', 25.99, 100),
+    ('Mechanical Keyboard', 'RGB mechanical keyboard with blue switches', 89.50, 50),
+    ('Laptop Stand', 'Adjustable aluminum stand for laptops', 39.99, 75),
+    ('USB-C Hub', '7-in-1 USB-C hub with HDMI and card reader', 29.99, 120),
+    ('Noise Cancelling Headphones', 'Over-ear wireless headphones with ANC', 149.99, 30);
+
 CREATE TABLE IF NOT EXISTS `users` (
     `username` VARCHAR(50) NOT NULL PRIMARY KEY,
     `password` VARCHAR(68) NOT NULL,
