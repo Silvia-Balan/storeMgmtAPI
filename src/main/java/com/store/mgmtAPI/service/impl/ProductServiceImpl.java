@@ -7,7 +7,7 @@ import com.store.mgmtAPI.repository.ProductRepository;
 import com.store.mgmtAPI.model.Product;
 import com.store.mgmtAPI.service.IProductService;
 import com.store.mgmtAPI.dto.ProductDTO;
-import com.store.mgmtAPI.dto.ProductMapper;
+import com.store.mgmtAPI.mapper.ProductMapper;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
@@ -18,11 +18,15 @@ import java.util.List;
 
 @Service
 public class ProductServiceImpl implements IProductService {
+
     private ProductRepository productRepository;
+    private ProductMapper productMapper;
+
     private static final Logger log = LoggerFactory.getLogger(ProductServiceImpl.class);
 
-    public ProductServiceImpl(ProductRepository productRepository) {
+    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper) {
         this.productRepository = productRepository;
+        this.productMapper = productMapper;
     }
 
     @Override
@@ -37,7 +41,7 @@ public class ProductServiceImpl implements IProductService {
 
         Product savedProd = productRepository.save(product);
         log.info("Successfully added product with ID: '{}'", savedProd.getId());
-        ProductDTO productDTO = ProductMapper.mapToProductDTO(savedProd, new ProductDTO());
+        ProductDTO productDTO = productMapper.toDto(savedProd);
 
         return productDTO;
     }
@@ -51,7 +55,7 @@ public class ProductServiceImpl implements IProductService {
         List<ProductDTO> listOfProductDTO = new ArrayList<>();
 
         for(Product product : productRepository.findAll()){
-            ProductDTO productDTO = ProductMapper.mapToProductDTO(product, new ProductDTO());
+            ProductDTO productDTO = productMapper.toDto(product);
             listOfProductDTO.add(productDTO);
         }
         log.info("List of products retrieved successfully.");
@@ -71,7 +75,7 @@ public class ProductServiceImpl implements IProductService {
 
         log.info("Product '{}' retrieved successfully", name);
 
-        ProductDTO productDTO = ProductMapper.mapToProductDTO(product, new ProductDTO());
+        ProductDTO productDTO = productMapper.toDto(product);
         return productDTO;
     }
 
@@ -82,7 +86,7 @@ public class ProductServiceImpl implements IProductService {
         List<ProductDTO> listOfProductsDTO = new ArrayList<>();
 
         for(Product product : productRepository.findProductByName(name)){
-            ProductDTO productDTO = ProductMapper.mapToProductDTO(product, new ProductDTO());
+            ProductDTO productDTO = productMapper.toDto(product);
             listOfProductsDTO.add(productDTO);
         }
 
@@ -103,7 +107,7 @@ public class ProductServiceImpl implements IProductService {
         List<ProductDTO> listOfProductsDTO = new ArrayList<>();
 
         for(Product product : productRepository.findProductByDescription(description)){
-            ProductDTO productDTO = ProductMapper.mapToProductDTO(product, new ProductDTO());
+            ProductDTO productDTO = productMapper.toDto(product);
             listOfProductsDTO.add(productDTO);
         }
 
