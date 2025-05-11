@@ -1,6 +1,6 @@
-package com.store.mgmtAPI.service.dto;
+package com.store.mgmtAPI.dto;
 
-import com.store.mgmtAPI.repository.model.Product;
+import com.store.mgmtAPI.model.Product;
 
 public class ProductMapper {
     public static ProductDTO mapToProductDTO(Product product, ProductDTO productDTO){

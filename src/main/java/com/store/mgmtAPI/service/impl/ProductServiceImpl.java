@@ -1,13 +1,13 @@
 package com.store.mgmtAPI.service.impl;
 
-import com.store.mgmtAPI.controller.exception.ProductNameAlreadyExistsException;
-import com.store.mgmtAPI.controller.exception.ProductNameMismatchException;
-import com.store.mgmtAPI.controller.exception.ProductNameNotFoundException;
+import com.store.mgmtAPI.exception.ProductNameAlreadyExistsException;
+import com.store.mgmtAPI.exception.ProductNameMismatchException;
+import com.store.mgmtAPI.exception.ProductNameNotFoundException;
 import com.store.mgmtAPI.repository.ProductRepository;
-import com.store.mgmtAPI.repository.model.Product;
+import com.store.mgmtAPI.model.Product;
 import com.store.mgmtAPI.service.IProductService;
-import com.store.mgmtAPI.service.dto.ProductDTO;
-import com.store.mgmtAPI.service.dto.ProductMapper;
+import com.store.mgmtAPI.dto.ProductDTO;
+import com.store.mgmtAPI.dto.ProductMapper;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;

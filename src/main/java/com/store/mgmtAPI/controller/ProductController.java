@@ -1,9 +1,8 @@
 package com.store.mgmtAPI.controller;
 
-import com.store.mgmtAPI.repository.model.Product;
+import com.store.mgmtAPI.model.Product;
 import com.store.mgmtAPI.service.IProductService;
-import com.store.mgmtAPI.service.dto.ProductDTO;
-import org.apache.catalina.mbeans.SparseUserDatabaseMBean;
+import com.store.mgmtAPI.dto.ProductDTO;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -11,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.xml.crypto.dsig.spec.XSLTTransformParameterSpec;
 import java.net.URI;
 import java.util.List;
 

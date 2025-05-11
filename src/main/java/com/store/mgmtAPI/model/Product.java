@@ -1,4 +1,4 @@
-package com.store.mgmtAPI.repository.model;
+package com.store.mgmtAPI.model;
 
 import jakarta.persistence.*;
 
