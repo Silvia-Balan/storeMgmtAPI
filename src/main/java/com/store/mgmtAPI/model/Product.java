@@ -1,6 +1,8 @@
 package com.store.mgmtAPI.model;
 
+import com.store.mgmtAPI.utils.FieldLengths;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -12,16 +14,21 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @NotNull
     @Column(name = "name")
+    @Size(min = FieldLengths.PRODUCT_NAME_MIN_LENGTH, max = FieldLengths.PRODUCT_NAME_MAX_LENGTH,
+            message = "Name length has to be between " + FieldLengths.PRODUCT_NAME_MIN_LENGTH + " and " + FieldLengths.PRODUCT_NAME_MAX_LENGTH)
     private String name;
 
     @Column(name = "description")
+    @Size(max = FieldLengths.DESCRIPTION_MAX_LENGTH, message = "Description cannot exceed " + FieldLengths.DESCRIPTION_MAX_LENGTH)
     private String description;
-
+    @NotNull
+    @Positive(message = "Price must be > 0")
     @Column(name = "price")
     private BigDecimal price;
-
+    @NotNull
+    @Min(value = 0, message = "Quantity must be >= 0")
     @Column(name = "quantity")
     private int quantity;
 

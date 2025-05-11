@@ -3,6 +3,7 @@ package com.store.mgmtAPI.controller;
 import com.store.mgmtAPI.model.Product;
 import com.store.mgmtAPI.service.IProductService;
 import com.store.mgmtAPI.dto.ProductDTO;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,7 +31,7 @@ public class ProductController {
     }
     @Secured("ROLE_VENDOR")
     @PostMapping
-    public ResponseEntity<ProductDTO> addProduct(@RequestBody Product product, UriComponentsBuilder uriComponentsBuilder){
+    public ResponseEntity<ProductDTO> addProduct(@Valid @RequestBody Product product, UriComponentsBuilder uriComponentsBuilder){
         System.out.println("Product is: " + product);
         ProductDTO productDTO = iProductService.addProduct(product);
 
@@ -113,7 +114,7 @@ public class ProductController {
     }
     @Secured("ROLE_VENDOR")
     @PutMapping(path = "/product/{name}")
-    public ResponseEntity<String> updateProduct(@PathVariable String name, @RequestBody Product product){
+    public ResponseEntity<String> updateProduct(@PathVariable String name, @Valid @RequestBody Product product){
         iProductService.updateProduct(name, product);
 
         return ResponseEntity

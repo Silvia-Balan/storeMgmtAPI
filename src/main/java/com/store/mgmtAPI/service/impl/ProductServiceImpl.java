@@ -152,8 +152,12 @@ public class ProductServiceImpl implements IProductService {
         log.info("Attempting to update product '{}'", product);
 
         if(!nameFromUri.equals(productName)){
-            log.error("Product name '{}' not found in DB", productName);
+            log.error("Product names mismatch URI = '{}' Entity name = '{}' ",nameFromUri, productName);
             throw new ProductNameMismatchException("Product name mismatch: URI = " + nameFromUri + "Entity name = " + productName );
+        }
+        if(productRepository.findByName(productName).isEmpty()){
+            log.error("Product name '{}' not found in DB", productName);
+            throw new ProductNameNotFoundException("Product name: " + productName  + " not found in DB. Please add before update.");
         }
 
         productRepository.updateProduct(productName, product.getDescription(), product.getPrice(), product.getQuantity());
