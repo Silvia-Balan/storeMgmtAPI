@@ -13,7 +13,7 @@ public class ProductUtils {
         return (Math.abs(b) > Math.abs(a)) ? true : false;
     }
 
-    public String getMethodName(){
+    public static String getMethodName(){
         return Thread.currentThread().getStackTrace()[2].getMethodName();
     }
 }
