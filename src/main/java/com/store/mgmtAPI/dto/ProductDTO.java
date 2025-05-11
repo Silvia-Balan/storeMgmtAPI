@@ -1,6 +1,4 @@
-package com.store.mgmtAPI.service.dto;
-
-import jakarta.persistence.Column;
+package com.store.mgmtAPI.dto;
 
 import java.math.BigDecimal;
 

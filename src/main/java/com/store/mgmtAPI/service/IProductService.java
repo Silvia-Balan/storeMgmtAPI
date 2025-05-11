@@ -1,7 +1,7 @@
 package com.store.mgmtAPI.service;
 
-import com.store.mgmtAPI.repository.model.Product;
-import com.store.mgmtAPI.service.dto.ProductDTO;
+import com.store.mgmtAPI.model.Product;
+import com.store.mgmtAPI.dto.ProductDTO;
 
 import java.util.List;
 

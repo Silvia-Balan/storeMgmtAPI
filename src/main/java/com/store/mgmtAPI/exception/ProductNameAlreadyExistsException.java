@@ -1,4 +1,4 @@
-package com.store.mgmtAPI.controller.exception;
+package com.store.mgmtAPI.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
